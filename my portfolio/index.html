@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Front-end Developer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: rgb(16, 16, 87);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 80px;
+            background-color: rgb(165, 52, 165);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav ul { display: flex; }
+        nav ul li { list-style: none; margin: 0 23px; }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            color: yellow;
+            border-bottom: 2px solid white;
+        }
+        .left { font-size: 1.5rem; }
+        section { padding: 60px 10%; }
+        .firstSection {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            min-height: 80vh;
+        }
+        .firstSection > div { width: 45%; }
+        .leftSection { font-size: 2.5rem; }
+        .leftSection .buttons { padding: 23px 0; }
+        .leftSection .btn {
+            padding: 12px 20px;
+            background-color: rgb(165, 52, 165);
+            color: white;
+            border: 2px solid white;
+            border-radius: 6px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        .leftSection .btn:hover {
+            background-color: white;
+            color: rgb(165, 52, 165);
+            transform: scale(1.05);
+        }
+        .rightSection img { width: 100%; border-radius: 10px; }
+        .purple { color: rgb(165, 52, 165); }
+        #element { color: rgb(165, 52, 165); }
+        footer {
+            background-color: rgb(165, 52, 165);
+            text-align: center;
+            padding: 20px;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="left">Satish's Portfolio</div>
+            <div class="right">
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact Me</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="firstSection fade-in">
+            <div class="leftSection">
+                Hi, My name is <span class="purple">Satish</span>
+                <div>and I am a passionate</div>
+                <span id="element"></span>
+                <div class="buttons">
+                    <button class="btn" id="resumeBtn">Download Resume</button>
+                    <button class="btn" id="githubBtn">Visit Github</button>
+                </div>
+            </div>
+            <div class="rightSection">
+                <img src="bg.png" alt="Developer illustration">
+            </div>
+        </section>
+
+        <section id="about" class="fade-in">
+            <h2>About Me</h2>
+            <p>I am a front-end developer passionate about creating responsive and user-friendly web experiences.</p>
+        </section>
+
+        <section id="services" class="fade-in">
+            <h2>Services</h2>
+            <p>Web Development, UI/UX Design, Performance Optimization</p>
+        </section>
+
+        <section id="projects" class="fade-in">
+            <h2>Projects</h2>
+            <p>Here are some of my best works...</p>
+        </section>
+
+        <section id="contact" class="fade-in">
+            <h2>Contact Me</h2>
+            <p>Email: your.email@example.com</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Satish's Portfolio. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+        var typed = new Typed('#element', {
+            strings: ['Front-end Developer', 'Android Developer', 'Software Tester', 'Data Analyst'],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+
+        document.getElementById("resumeBtn").onclick = () => {
+            window.open("web dev resume (1)-1.pdf", "_blank");
+        };
+        document.getElementById("githubBtn").onclick = () => {
+            window.open("https://github.com/yourusername", "_blank");
+        };
+
+        const faders = document.querySelectorAll(".fade-in");
+        const appearOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add("show");
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.2 });
+        faders.forEach(fader => appearOnScroll.observe(fader));
+
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll("nav ul li a");
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 60;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute("id");
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href") === `#${current}`) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
